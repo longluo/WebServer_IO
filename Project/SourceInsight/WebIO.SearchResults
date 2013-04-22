@@ -1,0 +1,58 @@
+---- lwIPInit Matches (3 in 3 files) ----
+Lwiplib.c (e:\arm\lm3s8962projects\webio\source\lwipconfig):lwIPInit(const unsigned char *pucMAC, unsigned long ulIPAddr,
+Lwiplib.h (e:\arm\lm3s8962projects\webio\source\lwipconfig):extern void lwIPInit(const unsigned char *pucMac, unsigned long ulIPAddr,
+Main.c (e:\arm\lm3s8962projects\webio\source\app\src):	lwIPInit(pucMACAddress,ulIPAddr, ulNetMask, ulGWAddr, IPADDR_USE_STATIC);
+---- ARP_TMR_INTERVAL Matches (5 in 4 files) ----
+Etharp.h (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\include\netif):#define ARP_TMR_INTERVAL 5000
+Lwiplib.c (e:\arm\lm3s8962projects\webio\source\lwipconfig):    if((g_ulLocalTimer - g_ulARPTimer) >= ARP_TMR_INTERVAL)
+Rawapi.txt (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\doc):  Note: you must call etharp_tmr at a ARP_TMR_INTERVAL (5 seconds) regular interval
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):  sys_timeout(ARP_TMR_INTERVAL, arp_timer, NULL);
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):  sys_timeout(ARP_TMR_INTERVAL, arp_timer, NULL);
+---- etharp.h Matches (13 in 13 files) ----
+Autoip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core\ipv4):#include "netif/etharp.h"
+Autoip.h (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\include\ipv4\lwip):#include "netif/etharp.h"
+Dhcp.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "netif/etharp.h"
+Etharp.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\netif):#include "netif/etharp.h"
+Ethernetif.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\netif):#include "netif/etharp.h"
+Init.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "netif/etharp.h"
+Memp.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "netif/etharp.h"
+Mib2.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core\snmp):#include "netif/etharp.h"
+Netif.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "netif/etharp.h"
+Ppp_oe.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\netif\ppp):#include "netif/etharp.h"
+Rawapi.txt (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\doc):  function ethernet_input() declared in "netif/etharp.h". Other drivers
+Stellarisif.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\ports\stellaris\netif):#include "netif/etharp.h"
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):#include "netif/etharp.h"
+---- AUTOIP_TMR_INTERVAL Matches (5 in 3 files) ----
+Autoip.h (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\include\ipv4\lwip):#define AUTOIP_TMR_INTERVAL      100
+Autoip.h (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\include\ipv4\lwip):#define AUTOIP_TICKS_PER_SECOND (1000 / AUTOIP_TMR_INTERVAL)
+Lwiplib.c (e:\arm\lm3s8962projects\webio\source\lwipconfig):    if((g_ulLocalTimer - g_ulAutoIPTimer) >= AUTOIP_TMR_INTERVAL)
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):  sys_timeout(AUTOIP_TMR_INTERVAL, autoip_timer, NULL);
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):  sys_timeout(AUTOIP_TMR_INTERVAL, autoip_timer, NULL);
+---- autoip.h Matches (7 in 7 files) ----
+Autoip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core\ipv4):#include "lwip/autoip.h"
+Dhcp.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "lwip/autoip.h"
+Etharp.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\netif):#include "lwip/autoip.h"
+Init.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "lwip/autoip.h"
+Netif.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "lwip/autoip.h"
+Netifapi.h (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\include\lwip):#include "lwip/autoip.h"
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):#include "lwip/autoip.h"
+---- DHCP_COARSE_TIMER_MSECS Matches (4 in 3 files) ----
+Dhcp.h (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\include\lwip):#define DHCP_COARSE_TIMER_MSECS (DHCP_COARSE_TIMER_SECS * 1000UL)
+Lwiplib.c (e:\arm\lm3s8962projects\webio\source\lwipconfig):    if((g_ulLocalTimer - g_ulDHCPCoarseTimer) >= DHCP_COARSE_TIMER_MSECS)
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):  sys_timeout(DHCP_COARSE_TIMER_MSECS, dhcp_timer_coarse, NULL);
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):  sys_timeout(DHCP_COARSE_TIMER_MSECS, dhcp_timer_coarse, NULL);
+---- dhcp.h Matches (7 in 7 files) ----
+Dhcp.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "lwip/dhcp.h"
+Etharp.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\netif):#include "lwip/dhcp.h"
+Ip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core\ipv4):#include "lwip/dhcp.h"
+Netif.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "lwip/dhcp.h"
+Netifapi.h (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\include\lwip):#include "lwip/dhcp.h"
+Tcpip.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\api):#include "lwip/dhcp.h"
+Udp.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\src\core):#include "lwip/dhcp.h"
+---- stellarisif_init Matches (4 in 3 files) ----
+Lwiplib.c (e:\arm\lm3s8962projects\webio\source\lwipconfig):    netif_add(&g_sNetIF, &ip_addr, &net_mask, &gw_addr, NULL, stellarisif_init,
+Lwiplib.c (e:\arm\lm3s8962projects\webio\source\lwipconfig):    netif_add(&g_sNetIF, &ip_addr, &net_mask, &gw_addr, NULL, stellarisif_init,
+Stellarisif.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\ports\stellaris\netif):stellarisif_init(struct netif *netif)
+Stellarisif.h (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\ports\stellaris\include\netif):extern err_t stellarisif_init(struct netif *netif);
+---- stellarisif.h Matches (1 in 1 files) ----
+Stellarisif.c (e:\arm\lm3s8962projects\webio\source\lwip-1.3.2\ports\stellaris\netif):#include "netif/stellarisif.h"
