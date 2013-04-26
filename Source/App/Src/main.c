@@ -15,7 +15,7 @@
 ** 
 ************************************************************************************/
 
-#include <string.h>
+//#include <string.h>
 #include "hw_types.h"
 #include "hw_ints.h"
 #include "hw_memmap.h"
