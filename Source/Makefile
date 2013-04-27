@@ -160,7 +160,7 @@ ${COMPILER}/webserver_io.axf: ${COMPILER}/uartstdio.o
 
 ${COMPILER}/webserver_io.axf: ${ROOT}/LM3S_Lib/DriverLib/libdriver.a
 ${COMPILER}/webserver_io.axf: WebServer_IO.ld
-SCATTERgcc_webserver_io=webserver_io.ld
+SCATTERgcc_webserver_io=WebServer_IO.ld
 ENTRY_webserver_io=ResetISR
 
 #
