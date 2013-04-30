@@ -334,7 +334,7 @@
             <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
-            <OneElfS>0</OneElfS>
+            <OneElfS>1</OneElfS>
             <Strict>0</Strict>
             <EnumInt>0</EnumInt>
             <PlainCh>0</PlainCh>
@@ -346,7 +346,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Source\App\Head;..\..\Source\HAL\Evm\Head;..\..\Source\HAL\Oled\Head;..\..\Source\HAL\Io\Head;..\..\Source\LM3S_Lib;..\..\Source\LM3S_Lib\inc;..\..\Source\LM3S_Lib\DriverLib;..\..\Source\lwip-1.3.2\ports\stellaris\include;..\..\Source\lwip-1.3.2\src\include;..\..\Source\lwip-1.3.2\src\include\ipv4;..\..\Source\lwipConfig;..\..\Source\Utils\Head;..\..\Source\WebServer;..\..\Source;..\..\Source\lwip-1.3.2\apps\httpserver_raw</IncludePath>
+              <IncludePath>..\..\Source\App\Head;..\..\Source\HAL\Evm\Head;..\..\Source\HAL\Oled;..\..\Source\HAL\Io;..\..\Source\LM3S_Lib;..\..\Source\LM3S_Lib\inc;..\..\Source\LM3S_Lib\DriverLib;..\..\Source\lwip-1.3.2\ports\stellaris\include;..\..\Source\lwip-1.3.2\src\include;..\..\Source\lwip-1.3.2\src\include\ipv4;..\..\Source\lwipConfig;..\..\Source\Utils\Head;..\..\Source\WebServer;..\..\Source</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -402,19 +402,19 @@
           <GroupName>HAL</GroupName>
           <Files>
             <File>
+              <FileName>Startup_rvmdk.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\Source\HAL\Startup_rvmdk.s</FilePath>
+            </File>
+            <File>
               <FileName>rit128x96x4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Source\HAL\Oled\Src\rit128x96x4.c</FilePath>
+              <FilePath>..\..\Source\HAL\Oled\rit128x96x4.c</FilePath>
             </File>
             <File>
               <FileName>Io.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\Source\HAL\IO\Src\Io.c</FilePath>
-            </File>
-            <File>
-              <FileName>Startup_rvmdk.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\Source\HAL\Startup_rvmdk.s</FilePath>
+              <FilePath>..\..\Source\HAL\IO\Io.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -750,6 +750,11 @@
               <FileName>httpd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Source\WebServer\httpd.c</FilePath>
+            </File>
+            <File>
+              <FileName>cgifuncs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Source\WebServer\cgifuncs.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -127,7 +127,7 @@ const default_filename g_psDefaultFilenames[] = {
  * does support snprintf, this header can be removed and the call to usnprintf
  * replaced.
  */
-#include "utils/ustdlib.h"
+#include "ustdlib.h"
 
 const char *g_pcSSIExtensions[] = {
   ".shtml", ".shtm", ".ssi", ".xml"

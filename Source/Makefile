@@ -24,8 +24,8 @@ include ${ROOT}/makedefs
 #
 VPATH=./App/Src
 VPATH+=./HAL
-VPATH+=./HAL/Oled/Src
-VPATH+=./HAL/IO/Src
+VPATH+=./HAL/Oled
+VPATH+=./HAL/IO
 VPATH+=./lwipConfig
 #VPATH+=./lwip-1.3.2/apps/httpserver_raw
 VPATH+=./lwip-1.3.2/ports/stellaris
@@ -45,12 +45,12 @@ VPATH+=./WebServer
 #
 IPATH=.
 IPATH+=./App/Head
-IPATH+=./HAL/Oled/Head
-IPATH+=./HAL/IO/Head
+IPATH+=./HAL/Oled
+IPATH+=./HAL/IO
 IPATH+=./LM3S_Lib/inc
 IPATH+=./lwipConfig
 IPATH+=./lwip-1.3.2/apps
-IPATH+=./lwip-1.3.2/apps/httpserver_raw
+#IPATH+=./lwip-1.3.2/apps/httpserver_raw
 IPATH+=./lwip-1.3.2/ports/stellaris/include
 IPATH+=./lwip-1.3.2/src/include
 IPATH+=./lwip-1.3.2/src/include/ipv4
@@ -73,13 +73,11 @@ clean:
 # The rule to create the target directory.
 #
 ${COMPILER}:
-	#cd ${ROOT}/Output/
 	@mkdir ${COMPILER}
 
 #
 # Rules for building the WebServer_IO Application using lwIP 1.3.2.
 #
-#${COMPILER}/webserver_io.axf: ${COMPILER}/cgifuncs.o
 ${COMPILER}/webserver_io.axf: ${COMPILER}/main.o
 ${COMPILER}/webserver_io.axf: ${COMPILER}/temperature_sensor.o
 
@@ -154,6 +152,7 @@ ${COMPILER}/webserver_io.axf: ${COMPILER}/lwiplib.o
 
 ${COMPILER}/webserver_io.axf: ${COMPILER}/lmi_fs.o
 ${COMPILER}/webserver_io.axf: ${COMPILER}/httpd.o
+${COMPILER}/webserver_io.axf: ${COMPILER}/cgifuncs.o
 
 ${COMPILER}/webserver_io.axf: ${COMPILER}/ustdlib.o
 ${COMPILER}/webserver_io.axf: ${COMPILER}/uartstdio.o

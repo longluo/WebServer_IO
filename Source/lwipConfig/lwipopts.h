@@ -18,7 +18,7 @@
 // CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
 // DAMAGES, FOR ANY REASON WHATSOEVER.
 // 
-// This is part of revision 5961 of the EK-LM3S8962 Firmware Package.
+// This is part of revision 6459 of the EK-LM3S8962 Firmware Package.
 //
 //*****************************************************************************
 //
@@ -40,16 +40,16 @@
 //*****************************************************************************
 #define HOST_TMR_INTERVAL               100         // default is 0
 #define DHCP_EXPIRE_TIMER_MSECS         (10 * 1000)
-//#define INCLUDE_HTTPD_SSI
-//#define INCLUDE_HTTPD_CGI
-//#define DYNAMIC_HTTP_HEADERS
+#define INCLUDE_HTTPD_SSI
+#define INCLUDE_HTTPD_CGI
+#define DYNAMIC_HTTP_HEADERS
 
 //*****************************************************************************
 //
 // ---------- Platform specific locking ----------
 //
 //*****************************************************************************
-#define SYS_LIGHTWEIGHT_PROT            1           // default is 0	 针对Stellaris必须1
+#define SYS_LIGHTWEIGHT_PROT            1           // default is 0
 #define NO_SYS                          1           // default is 0
 //#define MEMCPY(dst,src,len)             memcpy(dst,src,len)
 //#define SMEMCPY(dst,src,len)            memcpy(dst,src,len)
@@ -61,9 +61,7 @@
 //*****************************************************************************
 //#define MEM_LIBC_MALLOC                 0
 #define MEM_ALIGNMENT                   4           // default is 1
-#define MEM_SIZE                        (12 * 1024)  // default is 1600	 很明显，该值决定着ZI的大小，12*1024=12288，整个ZI为20180，这部分就占了一大半。
-													//这就是堆内存的大小，如果应用程有大量数据在发送是要被复制，那么该值就应该尽量大一点。
-													//由此可见，发送缓冲区从这里边分配。
+#define MEM_SIZE                        (12 * 1024)  // default is 1600
 //#define MEMP_OVERFLOW_CHECK             0
 //#define MEMP_SANITY_CHECK               0
 //#define MEM_USE_POOLS                   0
@@ -77,13 +75,9 @@
 #define MEMP_NUM_PBUF                     20  // Default 16
 //#define MEMP_NUM_RAW_PCB                4
 //#define MEMP_NUM_UDP_PCB                4
-#define MEMP_NUM_TCP_PCB                  3  // Default 5 /* 同时建立激活的TCP连接的数目(要求参数LWIP_TCP使能).默认为5 我改成1之后和原来的8没有什么区别。但是这里建立tcp连接发送数据之后就立刻关闭了tcp连接.
-											//如果这里设置为1，就要注意了，我们在点亮led的时候实际上是几乎同时发送了两个GET请求，要求建立两个激活的tcp连接，如果设置为1，就会等到一个tcp激活的tcp连接关闭之后
-											//在建立一个新的tcp连接，所以才会出现延迟返回状态的现象。经过我的实验，发现等于3的时候比较特殊，会使code少4个字节
-											//而且ZI的大小也只比2的时候多160,（奇数多160，偶数时多168）。
-#define MEMP_NUM_TCP_PCB_LISTEN           1	 /* 能够监听的TCP连接数目(要求参数LWIP_TCP使能).默认为8我改成了1之后对本例程也是无影响的。这个非常规律，多一个ZI就多32个字节。*/
-#define MEMP_NUM_TCP_SEG                  20  // Default 16 这个数为20，MEMP_NUM_TCP_PCB为3时，code会比其它情况要小4个字节，其它所有值时code大小不变，当从偶数增加到
-												//奇数时，ZI增加24，从奇数增加到偶数时ZI增加16。
+#define MEMP_NUM_TCP_PCB                  8  // Default 5
+//#define MEMP_NUM_TCP_PCB_LISTEN         8
+#define MEMP_NUM_TCP_SEG                  20  // Default 16
 //#define MEMP_NUM_REASSDATA              5
 //#define MEMP_NUM_ARP_QUEUE              30
 //#define MEMP_NUM_IGMP_GROUP             8
@@ -92,7 +86,7 @@
 //#define MEMP_NUM_NETCONN                4
 //#define MEMP_NUM_TCPIP_MSG_API          8
 //#define MEMP_NUM_TCPIP_MSG_INPKT        8
-
+#define PBUF_POOL_SIZE                   16
 
 //*****************************************************************************
 //
@@ -111,8 +105,8 @@
 //*****************************************************************************
 //#define IP_FORWARD                      0
 //#define IP_OPTIONS_ALLOWED              1
-#define IP_REASSEMBLY                   0           // default is 1 注意进来的IP分段包就不会被重装，所以大于1500的IP包可能会有些意想不到的问题
-#define IP_FRAG                         0           // default is 1	这样从这里发送出去的包不会被分片。这个不会出现问题，因为我们的TCP_MSS才512
+#define IP_REASSEMBLY                   0           // default is 1
+#define IP_FRAG                         0           // default is 1
 //#define IP_REASS_MAXAGE                 3
 //#define IP_REASS_MAX_PBUFS              10
 //#define IP_FRAG_USES_STATIC_BUF         1
@@ -214,13 +208,13 @@
 //*****************************************************************************
 //#define LWIP_TCP                        1
 //#define TCP_TTL                         (IP_DEFAULT_TTL)
-#define TCP_WND                         2048    // default is 2048, was 4096  改变该值并不影响code和ZI的大小。
+#define TCP_WND                         2048    // default is 2048, was 4096
 //#define TCP_MAXRTX                      12
 //#define TCP_SYNMAXRTX                   6
 //#define TCP_QUEUE_OOSEQ                 1
-#define TCP_MSS                         512     // default is 128, was 1500	   改变该值并不影响code和ZI的大小。。该值规定了TCP数据包数据部分的最大值，不包括tcp首部
+#define TCP_MSS                         512     // default is 128, was 1500
 //#define TCP_CALCULATE_EFF_SEND_MSS      1
-#define TCP_SND_BUF                     (6 * TCP_MSS)						 //改变该值并不影响ZI的大小,但稍稍影响code大小，几个字节。
+#define TCP_SND_BUF                     (6 * TCP_MSS)
                                                     // default is 256
 //#define TCP_SND_QUEUELEN                (4 * (TCP_SND_BUF/TCP_MSS))
 //#define TCP_SNDLOWAT                    (TCP_SND_BUF/2)
@@ -240,13 +234,10 @@
 // ---------- Pbuf options ----------
 //
 //*****************************************************************************
-#define PBUF_LINK_HLEN                  16          // default is 14  改成16是因为在Stellaris系列中，FIFO中的帧是开始有两个字节的帧长度，针对Stellaris必须16
-#define PBUF_POOL_SIZE                  16			// 奇数时code比偶数时多4个字节，每+1，RAM多消耗272个字节。这也就是说每个pbuf需要272个字节，而每一个pbuf
-													//由两部分组成，一部分是缓冲区256个字节，一部分是pbuf首部（16个字节。）（不是以太网链路层的帧首部，尽管它从FIFO中是16个字节）。这个pbuf就是直接装入从RX FIFO中传
-													//过来的数据。每一个pbuf可以存一个帧，可以存256个字节的一个帧。这部分内存主要用来接收的。
-#define PBUF_POOL_BUFSIZE               256			//这个pbuf包括前边的16个字节的pbuf头，叫首部有点不合适，这个pbuf头里保存这个pbuf的所有信息。
+#define PBUF_LINK_HLEN                  16          // default is 14
+#define PBUF_POOL_BUFSIZE               256
                                                     // default is LWIP_MEM_ALIGN_SIZE(TCP_MSS+40+PBUF_LINK_HLEN)
-#define ETH_PAD_SIZE                    2           // default is 0	  针对Stellaris必须为2
+#define ETH_PAD_SIZE                    2           // default is 0
 
 //*****************************************************************************
 //
@@ -396,9 +387,9 @@ extern void UARTprintf(const char *pcString, ...);
 #define LWIP_DEBUG
 #endif
 
-
-//#define   LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_OFF
-#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_WARNING
+//#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_OFF
+#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_OFF
+//#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_WARNING
 //#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_SERIOUS
 //#define LWIP_DBG_MIN_LEVEL              LWIP_DBG_LEVEL_SEVERE
 
@@ -407,7 +398,7 @@ extern void UARTprintf(const char *pcString, ...);
 
 //#define ETHARP_DEBUG                    LWIP_DBG_ON     // default is OFF
 //#define NETIF_DEBUG                     LWIP_DBG_ON     // default is OFF
-//#define PBUF_DEBUG                        LWIP_DBG_ON
+//#define PBUF_DEBUG                      LWIP_DBG_OFF
 //#define API_LIB_DEBUG                   LWIP_DBG_OFF
 //#define API_MSG_DEBUG                   LWIP_DBG_OFF
 //#define SOCKETS_DEBUG                   LWIP_DBG_OFF
@@ -438,5 +429,5 @@ extern void UARTprintf(const char *pcString, ...);
 //#define SNMP_MSG_DEBUG                  LWIP_DBG_OFF
 //#define SNMP_MIB_DEBUG                  LWIP_DBG_OFF
 //#define DNS_DEBUG                       LWIP_DBG_OFF
-#define HTTPD_DEBUG  					  LWIP_DBG_ON
+
 #endif /* __LWIPOPTS_H__ */

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- Copyright (c) Long Luo.  All rights reserved. -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title> CPU Temperature </title>
+
+<script language="JavaScript">
+<!--			
+	function gettemp()
+	{
+ 		var gettemp = false;
+		
+		function gettempComplete()
+		{
+			if (gettemp.readyState == 4)
+			{
+				if (gettemp.status == 200)
+				{
+					document.getElementById("temp").innerHTML = "<div>" + gettemp.responseText + "</div>";
+				}
+			}
+		}
+			 
+		if (window.XMLHttpRequest)
+		{
+			gettemp = new XMLHttpRequest();
+		}
+		else if (window.ActiveXObject)
+		{
+			gettemp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		if (gettemp)
+		{
+			gettemp.open("GET", "/gettemp?id=" + Math.random(), true);
+			gettemp.onreadystatechange = gettempComplete;				
+			gettemp.send(null);
+		}
+		
+		t=setTimeout('gettemp()',500)
+	}				
+//-->
+</script>
+
+<style type="text/css">
+body
+{
+font-family: Arial;
+background-color: #E89D97;
+margin: 10px;
+padding: 0px
+}
+h1
+{
+color: #7C7369;
+font-family: Arial;
+font-size: 24pt;
+font-style: italic;
+}
+h2
+{
+color: #000000;
+font-family: Arial;
+font-size: 18pt;
+font-style: bold;
+}
+h3
+{
+color: #7C7369;
+font-family: Arial;
+font-size: 12pt;
+font-style: bold;
+}
+
+.STYLE1 {color: #0000CC}
+</style>
+</head>
+
+<body onload="gettemp();">
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td align="center" valign="center">
+<h1>Stellaris<small><sup>&reg;</sup></small> LM3S8962 Evaluation Kit</h1>
+</td>
+</tr>
+</table>
+
+<table width="100%">
+<tbody>
+<tr>
+<td align="left" valign="top" width="25%">
+<br>
+<ul>
+
+<li> <a href="index.html">About The Project</a>
+<br>
+<br>
+</li>
+
+<li> <a href="cpu_temp.html">CPU Temperature</a>
+<br>
+<br>
+</li>
+
+<li> <a href="io_http.html">I/O Control Demo 1<br>
+(HTTP Requests)</a>
+<br>
+<br>
+</li>
+
+<li><a href="io_cgi.ssi">I/O Control Demo 2<br>
+(SSI/CGI)<br>
+<br>
+</a>
+</li>
+
+
+<td align="left" valign="top" width="75%">
+<center>
+<h2 align="center">动态显示CPU温度<By LongLuo></h2>
+</center>
+
+<hr size="2" width="100%">
+
+<center>
+<p class="STYLE1">本例程采用HTTP Requests(XML,Javascript)动态间隔500ms获取温度</p>
+</center>
+
+
+<table>
+<tr height="50">
+<td width="50%" align="left">
+当前芯片内核温度：</td>
+
+<td  width="5%" align="left">
+<div id="temp" align="center">
+<div align="left">- </div>
+</div>
+</td>
+<td width="45%">摄氏度</td>
+</tr>
+</table>
+
+<hr size="2" width="100%" />
+
+<div id="jnkc">
+</div>
+<script>setInterval("jnkc.innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000);
+</script>
+
+<p>  
+<center>Copyright &copy 2013 Long Luo. All Rights Reserved!</center>  
+</p>
+
+</body>
+</html>
+

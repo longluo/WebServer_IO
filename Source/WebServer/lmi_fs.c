@@ -1,10 +1,21 @@
-//*****************************************************************************
-//
-// lmi_fs.c - File System Processing for enet_io application.
-//
-//*****************************************************************************
+/************************************************************************************
+** File: - E:\ARM\lm3s8962projects\WebServer_IO\Source\WebServer\lmi_fs.c
+**  
+** Copyright (C), Long.Luo, All Rights Reserved!
+** 
+** Description: 
+**      lmi_fs.c - File System Processing for enet_io application.
+** 
+** Version: 2.0
+** Date created: 16:45:23,30/04/2013
+** Author: Long.Luo
+** 
+** --------------------------- Revision History: --------------------------------
+** 	<author>	<data>			<desc>
+** 
+************************************************************************************/
 
-#include <string.h>
+//#include <string.h>
 #include "hw_types.h"
 #include "hw_memmap.h"
 #include "gpio.h"
@@ -14,6 +25,7 @@
 #include "uartstdio.h"
 #include "ustdlib.h"
 #include "temperature_sensor.h"
+#include "Io.h"
 
 
 //*****************************************************************************
@@ -36,7 +48,7 @@ extern unsigned long ulTemp_ValueC;
 // Global Settings for demo page content.
 //
 //*****************************************************************************
-//static char g_cSampleTextBuffer[17] = {0};
+static char g_cSampleTextBuffer[16] = {0};
 
 //*****************************************************************************
 //
@@ -50,6 +62,8 @@ extern unsigned long ulTemp_ValueC;
 struct fs_file *
 fs_open(char *name)
 {
+    char *data;
+    int i;
 	const struct fsdata_file *ptTree;
 	struct fs_file *ptFile = NULL;
 
@@ -62,6 +76,234 @@ fs_open(char *name)
 		return(NULL);
 	}
 
+    //
+    // Process request to toggle STATUS LED
+    //
+    if(strncmp(name, "/cgi-bin/toggle_led", 19) == 0)
+    {
+        //
+        // Toggle the STATUS LED
+        //
+        io_set_led(!io_is_led_on());
+
+        //
+        // Setup the file structure to return whatever.
+        //
+        ptFile->data = NULL;
+        ptFile->len = 0;
+        ptFile->index = 0;
+        ptFile->pextension = NULL;
+
+        //
+        // Return the file system pointer.
+        //
+        return(ptFile);
+    }
+
+    //
+    // Process request to turn PWM ON/OFF
+    //
+    if(strncmp(name, "/cgi-bin/pwm_onoff", 18) == 0)
+    {
+        //
+        // Turn PWM on/off
+        //
+        io_set_pwm(!io_is_pwm_on());
+
+        //
+        // Setup the file structure to return whatever.
+        //
+        ptFile->data = NULL;
+        ptFile->len = 0;
+        ptFile->index = 0;
+        ptFile->pextension = NULL;
+
+        //
+        // Return the file system pointer.
+        //
+        return(ptFile);
+    }
+
+    //
+    // Process request for PWM freq update
+    //
+    if(strncmp(name, "/pwm_freq?value=", 16) == 0)
+    {
+        //
+        // Get Frequency String
+        //
+        data = name;
+        data += 16;
+        i = 0;
+        do
+        {
+            switch(data[i])
+            {
+                case 0:
+                case '&':
+                    g_cSampleTextBuffer[i] = 0;
+                    break;
+                case '+':
+                    g_cSampleTextBuffer[i] = ' ';
+                    break;
+                default:
+                    g_cSampleTextBuffer[i] = data[i];
+                    break;
+            }
+            if(g_cSampleTextBuffer[i] == 0)
+            {
+                break;
+            }
+            i++;
+        }while(i < sizeof(g_cSampleTextBuffer));
+
+        //
+        // Set PWM Frequency
+        //
+        io_pwm_freq(ustrtoul(g_cSampleTextBuffer,NULL,10));
+
+        //
+        // Setup the file structure to return whatever.
+        //
+        ptFile->data = NULL;
+        ptFile->len = 0;
+        ptFile->index = 0;
+        ptFile->pextension = NULL;
+
+        //
+        // Return the file system pointer.
+        //
+        return(ptFile);
+    }
+
+    //
+    // Process request for PWM Duty Cycle update
+    //
+    if(strncmp(name, "/pwm_dutycycle?value=", 21) == 0)
+    {
+        //
+        // Get Duty Cycle String
+        //
+        data = name;
+        data += 21;
+        i = 0;
+        do
+        {
+            switch(data[i])
+            {
+                case 0:
+                case '&':
+                    g_cSampleTextBuffer[i] = 0;
+                    break;
+                case '+':
+                    g_cSampleTextBuffer[i] = ' ';
+                    break;
+                default:
+                    g_cSampleTextBuffer[i] = data[i];
+                    break;
+            }
+            if(g_cSampleTextBuffer[i] == 0)
+            {
+                break;
+            }
+            i++;
+        }while(i < sizeof(g_cSampleTextBuffer));
+
+        //
+        // Set PWM Duty Cycle
+        //
+        io_pwm_dutycycle(ustrtoul(g_cSampleTextBuffer,NULL,10));
+
+        //
+        // Setup the file structure to return whatever.
+        //
+        ptFile->data = NULL;
+        ptFile->len = 0;
+        ptFile->index = 0;
+        ptFile->pextension = NULL;
+
+        //
+        // Return the file system pointer.
+        //
+        return(ptFile);
+    }
+
+    //
+    // Request for LED State?
+    //
+    if(strncmp(name, "/ledstate?id", 12) == 0)
+    {
+        static char pcBuf[4];
+
+        //
+        // Get the state of the LED
+        //
+        io_get_ledstate(pcBuf, 4);
+
+        ptFile->data = pcBuf;
+        ptFile->len = strlen(pcBuf);
+        ptFile->index = ptFile->len;
+        ptFile->pextension = NULL;
+        return(ptFile);
+    }
+	    //
+    // Request for PWM State?
+    //
+    if(strncmp(name, "/pwmstate?id", 12) == 0)
+    {
+        static char pcBuf[4];
+
+        //
+        // Get the state of the PWM
+        //
+        io_get_pwmstate(pcBuf, 4);
+
+        ptFile->data = pcBuf;
+        ptFile->len = strlen(pcBuf);
+        ptFile->index = ptFile->len;
+        ptFile->pextension = NULL;
+        return(ptFile);
+    }
+
+    //
+    // Request PWM Frequency?
+    //
+    if(strncmp(name, "/pwmfreqget?id", 14) == 0)
+    {
+        static char pcBuf[16];
+
+        //
+        // Get the frequency of the PWM
+        //
+        usprintf(pcBuf,"%d",io_get_pwmfreq());
+
+        ptFile->data = pcBuf;
+        ptFile->len = strlen(pcBuf);
+        ptFile->index = ptFile->len;
+        ptFile->pextension = NULL;
+        return(ptFile);
+    }
+
+    //
+    // Request PWM Duty Cycle?
+    //
+    if(strncmp(name, "/pwmdutycycleget?id", 19) == 0)
+    {
+        static char pcBuf[16];
+
+        //
+        // Get the duty cycle of te PWM
+        //
+        usprintf(pcBuf,"%d",io_get_pwmdutycycle());
+
+        ptFile->data = pcBuf;
+        ptFile->len = strlen(pcBuf);
+        ptFile->index = ptFile->len;
+        ptFile->pextension = NULL;
+        return(ptFile);
+    }
+	
+	//
 	if (strncmp(name, "/gettemp?id", 11) == 0)
 	{
 		static char pcBuf[16];
