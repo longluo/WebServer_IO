@@ -22,7 +22,7 @@ function toggle_led()
 		}
 	}
 	
-	if(window.XMLHttpRequest)
+	if (window.XMLHttpRequest)
 	{
 		req = new XMLHttpRequest();
 		led = new XMLHttpRequest();
@@ -46,140 +46,144 @@ function toggle_led()
 	}
 }
 
-	function pwm_onoff()
+function pwm_onoff()
+{
+	var req = false;
+	var pwm = false;
+	
+	function pwmComplete()
 	{
-		var req = false;
-		var pwm = false;
-		
-		function pwmComplete()
+		if(pwm.readyState == 4)
 		{
-			if(pwm.readyState == 4)
+			if(pwm.status == 200)
 			{
-				if(pwm.status == 200)
-				{
-					document.getElementById("pwmstate").innerHTML = "<div>" + pwm.responseText + "</div>";
-				}
+				document.getElementById("pwmstate").innerHTML = "<div>" + pwm.responseText + "</div>";
 			}
 		}
-		
-		if(window.XMLHttpRequest)
-		{
-			req = new XMLHttpRequest();
-			pwm = new XMLHttpRequest();
-		}
-		else if(window.ActiveXObject)
-		{
-			req = new ActiveXObject("Microsoft.XMLHTTP");
-			pwm = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		
-		if(req)
-		{
-			req.open("GET", "/cgi-bin/pwm_onoff?id" + Math.random(), true);
-			req.send(null);
-		}
-		
-		if(pwm)
-		{
-			pwm.open("GET", "/pwmstate?id=" + Math.random(), true);
-			pwm.onreadystatechange = pwmComplete;
-			pwm.send(null);
-		}
 	}
+		
+	if(window.XMLHttpRequest)
+	{
+		req = new XMLHttpRequest();
+		pwm = new XMLHttpRequest();
+	}
+	else if(window.ActiveXObject)
+	{
+		req = new ActiveXObject("Microsoft.XMLHTTP");
+		pwm = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+		
+	if(req)
+	{
+		req.open("GET", "/cgi-bin/pwm_onoff?id" + Math.random(), true);
+		req.send(null);
+	}
+	
+	if(pwm)
+	{
+		pwm.open("GET", "/pwmstate?id=" + Math.random(), true);
+		pwm.onreadystatechange = pwmComplete;
+		pwm.send(null);
+	}
+}
 
 function pwm_freq_set()
 {
-var req = false;
-var pwmfreq = false;
-var FreqText = document.getElementById("pwmfreqtxt");
-function pwmfreqComplete()
-{
-if(pwmfreq.readyState == 4)
-{
-if(pwmfreq.status == 200)
-{
-document.getElementById("pwmfreq").innerHTML = "<div>" + pwmfreq.responseText + "</div>";
+	var req = false;
+	var pwmfreq = false;
+	var FreqText = document.getElementById("pwmfreqtxt");
+	
+	function pwmfreqComplete()
+	{
+		if(pwmfreq.readyState == 4)
+		{
+			if(pwmfreq.status == 200)
+			{
+				document.getElementById("pwmfreq").innerHTML = "<div>" + pwmfreq.responseText + "</div>";
+			}
+		}
+	}
+	if (window.XMLHttpRequest)
+	{
+		req = new XMLHttpRequest();
+		pwmfreq = new XMLHttpRequest();
+	}
+	else if(window.ActiveXObject)
+	{
+		req = new ActiveXObject("Microsoft.XMLHTTP");
+		pwmfreq = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	if(req)
+	{
+		if(FreqText.value != "")
+		{
+			req.open("GET", "/pwm_freq?value=" + FreqText.value + "&id=" + Math.random(), true);
+			req.send(null);
+		}
+	}
+
+	if(pwmfreq)
+	{
+		pwmfreq.open("GET", "/pwmfreqget?id=" + Math.random(), true);
+		pwmfreq.onreadystatechange = pwmfreqComplete;
+		pwmfreq.send(null);
+	}
 }
-}
-}
-if(window.XMLHttpRequest)
-{
-req = new XMLHttpRequest();
-pwmfreq = new XMLHttpRequest();
-}
-else if(window.ActiveXObject)
-{
-req = new ActiveXObject("Microsoft.XMLHTTP");
-pwmfreq = new ActiveXObject("Microsoft.XMLHTTP");
-}
-if(req)
-{
-if(FreqText.value != "")
-{
-req.open("GET", "/pwm_freq?value=" + FreqText.value + "&id=" + Math.random(), true);
-req.send(null);
-}
-}
-if(pwmfreq)
-{
-pwmfreq.open("GET", "/pwmfreqget?id=" + Math.random(), true);
-pwmfreq.onreadystatechange = pwmfreqComplete;
-pwmfreq.send(null);
-}
-}
+
 function pwm_dutycycle_set()
 {
-var req = false;
-var pwmdutycycle = false;
-var DutyCycleText = document.getElementById("pwmdutycycletxt");
-function pwmdutycycleComplete()
-{
-if(pwmdutycycle.readyState == 4)
-{
-if(pwmdutycycle.status == 200)
-{
-document.getElementById("pwmdutycycle").innerHTML = "<div>" + pwmdutycycle.responseText + "</div>";
+	var req = false;
+	var pwmdutycycle = false;
+	var DutyCycleText = document.getElementById("pwmdutycycletxt");
+	function pwmdutycycleComplete()
+	{
+		if(pwmdutycycle.readyState == 4)
+		{
+			if(pwmdutycycle.status == 200)
+			{
+				document.getElementById("pwmdutycycle").innerHTML = "<div>" + pwmdutycycle.responseText + "</div>";
+			}
+		}
+	}
+	if(window.XMLHttpRequest)
+	{
+		req = new XMLHttpRequest();
+		pwmdutycycle = new XMLHttpRequest();
+	}
+	else if(window.ActiveXObject)
+	{
+		req = new ActiveXObject("Microsoft.XMLHTTP");
+		pwmdutycycle = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	if(req)
+	{
+		if(DutyCycleText.value != "")
+		{
+			req.open("GET", "/pwm_dutycycle?value=" + DutyCycleText.value + "&id=" + Math.random(), true);
+			req.send(null);
+		}
+	}
+	if(pwmdutycycle)
+	{
+		pwmdutycycle.open("GET", "/pwmdutycycleget?id=" + Math.random(), true);
+		pwmdutycycle.onreadystatechange = pwmdutycycleComplete;
+		pwmdutycycle.send(null);
+	}
 }
-}
-}
-if(window.XMLHttpRequest)
-{
-req = new XMLHttpRequest();
-pwmdutycycle = new XMLHttpRequest();
-}
-else if(window.ActiveXObject)
-{
-req = new ActiveXObject("Microsoft.XMLHTTP");
-pwmdutycycle = new ActiveXObject("Microsoft.XMLHTTP");
-}
-if(req)
-{
-if(DutyCycleText.value != "")
-{
-req.open("GET", "/pwm_dutycycle?value=" + DutyCycleText.value + "&id=" + Math.random(), true);
-req.send(null);
-}
-}
-if(pwmdutycycle)
-{
-pwmdutycycle.open("GET", "/pwmdutycycleget?id=" + Math.random(), true);
-pwmdutycycle.onreadystatechange = pwmdutycycleComplete;
-pwmdutycycle.send(null);
-}
-}
+
 function ledstateGet()
 {
-var led = false;
-function ledComplete()
-{
-if(led.readyState == 4)
-{
-if(led.status == 200)
-{
-document.getElementById("ledstate").innerHTML = "<div>" + led.responseText + "</div>";
-}
-}
-}
+	var led = false;
+	function ledComplete()
+	{
+		if(led.readyState == 4)
+		{
+			if(led.status == 200)
+			{
+				document.getElementById("ledstate").innerHTML = "<div>" + led.responseText + "</div>";
+			}
+		}
+	}
 if(window.XMLHttpRequest)
 {
 led = new XMLHttpRequest();
@@ -316,7 +320,7 @@ font-style: bold;
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td align="center" valign="center">
-<h1>Stellaris<small><sup>&reg;</sup></small> LM3S8962 Evaluation Kit</h1>
+<h1> Web I/O Control </h1>
 </td>
 </tr>
 

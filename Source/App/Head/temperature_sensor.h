@@ -20,6 +20,7 @@
 
 //
 unsigned long io_gettemp(void);
+void DisplayChipTemperature(void);
 
 #endif /* __TEMPERATURE_H__ */
 

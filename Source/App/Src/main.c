@@ -15,7 +15,6 @@
 ** 
 ************************************************************************************/
 
-//#include <string.h>
 #include "hw_types.h"
 #include "hw_ints.h"
 #include "hw_memmap.h"
@@ -47,7 +46,6 @@
 #define SYSTICKUS               (1000000 / SYSTICKHZ)
 #define SYSTICKNS               (1000000000 / SYSTICKHZ)
 
-
 //*****************************************************************************
 //
 // A set of flags.  The flag bits are defined as follows:
@@ -57,6 +55,8 @@
 //*****************************************************************************
 #define FLAG_SYSTICK            0
 static volatile unsigned long g_ulFlags;
+// the ticks
+static unsigned int g_uiTicks = 0;
 
 //*****************************************************************************
 //
@@ -148,6 +148,7 @@ static const tCGI g_psConfigCGIURIs[] =
 //
 //*****************************************************************************
 #define NUM_CONFIG_CGI_URIS     (sizeof(g_psConfigCGIURIs) / sizeof(tCGI))
+
 //*****************************************************************************
 //
 //! The file sent back to the browser by default following completion of any
@@ -156,6 +157,7 @@ static const tCGI g_psConfigCGIURIs[] =
 //
 //*****************************************************************************
 #define DEFAULT_CGI_RESPONSE    "/io_cgi.ssi"
+
 //*****************************************************************************
 //
 //! The file sent back to the browser in cases where a parameter error is
@@ -241,6 +243,7 @@ ControlCGIHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[])
     //
     return(DEFAULT_CGI_RESPONSE);
 }
+
 //*****************************************************************************
 //
 // This CGI handler is called whenever the web browser requests settxt.cgi.
@@ -260,7 +263,7 @@ SetTextCGIHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[])
     //
     // If the parameter was not found, show the error page.
     //
-    if(lStringParam == -1)
+    if (lStringParam == -1)
     {
         return(PARAM_ERROR_RESPONSE);
     }
@@ -291,6 +294,7 @@ SetTextCGIHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[])
     //
     return(DEFAULT_CGI_RESPONSE);
 }
+
 
 //*****************************************************************************
 //
@@ -349,6 +353,7 @@ SSIHandler(int iIndex, char *pcInsert, int iInsertLen)
     //
     return(strlen(pcInsert));
 }
+
 //*****************************************************************************
 //
 // Display an lwIP type IP Address.
@@ -373,6 +378,18 @@ void DisplayIPAddress(unsigned long ipaddr, unsigned long ulCol,
 }
 
 
+//
+void ISRTicksEverySecond(void)
+{
+	if (g_uiTicks == 500)
+	{
+		UARTprintf("%d\n", g_uiTicks);
+		DisplayChipTemperature();
+		g_uiTicks = 0;
+	}
+}
+
+
 // The interrupt handler for the SysTick interrupt.
 void SysTickIntHandler(void)
 {
@@ -381,10 +398,15 @@ void SysTickIntHandler(void)
 
     // Call the lwIP timer handler.
     lwIPTimer(SYSTICKMS);
+
+    // 
+    g_uiTicks++;
+    ISRTicksEverySecond();
 }
 
-
+//
 // Required by lwIP library to support any host-related timer functions.
+//
 void lwIPHostTimerHandler(void)
 {
     static unsigned long ulLastIPAddress = 0;
@@ -466,7 +488,7 @@ int main(void)
   	RIT128x96x4Init(1000000);
     RIT128x96x4StringDraw("Web-Based I/O Control", 0, 0, 15);
     RIT128x96x4StringDraw("Browser Message:", 0, 53, 15);
-	RIT128x96x4StringDraw("The Chip Temperature:", 0, 80, 15);
+	RIT128x96x4StringDraw("The Chip Temperature:", 0, 72, 15);
 
     //
     // Enable and Reset the Ethernet Controller.
@@ -548,6 +570,16 @@ int main(void)
     //
     lwIPInit(pucMACArray, 0, 0, 0, IPADDR_USE_DHCP);
 	//lwIPInit(pucMACAddress,ulIPAddr, ulNetMask, ulGWAddr, IPADDR_USE_STATIC);
+
+    //
+    // Initialize the UART as a console for text I/O.
+    //
+    UARTStdioInit(0);
+
+    //
+    // Print hello message to user.
+    //
+    UARTprintf("\n\nWeb I/O Control \n");
 	
     //
     // Setup the device locator service.

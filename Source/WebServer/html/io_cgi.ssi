@@ -47,14 +47,10 @@ font-style: bold;
 </style>
 </head>
 <body onload="SetFormDefaults()">
-<!-- Copyright (c) 2009-2010 Texas Instruments Incorporated.  All rights reserved. --><!--#FormVars-->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td align="left"  valign="center">
-<img src="./images/ti_logo.gif">
-</td>
 <td align="center" valign="center">
-<h1>Stellaris<small><sup>&reg;</sup></small> LM3S8962 Evaluation Kit</h1>
+<h1> Web I/O Control </h1>
 </td>
 </tr>
 </table>
@@ -66,7 +62,7 @@ font-style: bold;
 
 <ul>
 
-<li> <a href="index.html">About TI</a>
+<li> <a href="index.html">About The Project</a>
 <br>
 <br>
 </li>
