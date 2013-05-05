@@ -1,4 +1,4 @@
-# Ethernet-based I/O Control (enet_io)
+# Web-based I/O Control (Web_IO)
 
 
 This example application demonstrates web-based I/O control using the Stellaris Ethernet controller and the lwIP TCP/IP Stack.  DHCP is used to obtain an Ethernet address.  If DHCP times out without obtaining an address, a static IP address will be chosen using AutoIP.  The address that is selected will be shown on the OLED display allowing you to access the internal web pages served by the application via your normal web browser.
