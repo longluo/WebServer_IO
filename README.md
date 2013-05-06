@@ -1,7 +1,9 @@
 # Web-based I/O Control (Web_IO)
 
+-----------------------------------------------
+## English
 
-This example application demonstrates web-based I/O control using the Stellaris Ethernet controller and the lwIP TCP/IP Stack.  DHCP is used to obtain an Ethernet address.  If DHCP times out without obtaining an address, a static IP address will be chosen using AutoIP.  The address that is selected will be shown on the OLED display allowing you to access the internal web pages served by the application via your normal web browser.
+This application demonstrates web-based I/O control using the Stellaris Ethernet controller and the lwIP TCP/IP Stack.  DHCP is used to obtain an Ethernet address.  If DHCP times out without obtaining an address, a static IP address will be chosen using AutoIP.  The address that is selected will be shown on the OLED display allowing you to access the internal web pages served by the application via your normal web browser.
 	
 Two different methods of controlling board peripherals via web pages are illustrated via pages labelled "IO Control Demo 1" and "IO Control Demo 2" in the navigation menu on the left of the application's home page.
 	
@@ -14,5 +16,24 @@ Two different methods of controlling board peripherals via web pages are illustr
 Information on the state of the various controls in the second demo is inserted into the served HTML using SSI (Server Side Include) tags which are parsed by the HTTPD server in the application.  As with the CGI handlers, the application registers its list of SSI tags and a handler function with the web server during initialization and this handler is called whenever any registered tag is found in a .shtml, .ssi or .shtm file being served to the browser.
 
 Note that the web server used by this example has been modified from the example shipped with the basic lwIP package.  Additions include SSI and CGI support along with the ability to have the server automatically insert the HTTP headers rather than having these built in to the files in the file system image.
+
+
+-----------------------------------------------
+##Chinese
+
+这个项目是在EK-LM3S8962 开发板上实现的。将开发板连接网络之后，通过DHCP获得IP地址
+并显示在开发板的OLED屏幕上。我们可以在浏览器中输入开发板的IP地址，通过Web的方式访问
+开发板，因为开发板设置成为了一个嵌入式Web服务器。
+
+系统将间隔10ms*500获取当前CPU的温度，并显示在OLED屏幕上，也可以进入CPU Temperature页面，
+页面会500ms自动刷新获取当前CPU工作温度。
+
+#### I/O控制我们采取了2种方式来实现：
+
+**第一种方式:** 使用JavaScript语言。我们通过HTTP Post方法
+来发出我们的请求，服务器处理Post信息并反馈回来，可以控制外设的开关及调整。
+
+**第二种方式:** 使用CGI语言。我们可以在输入框输入字符，服务器接收信息并进行处理并
+显示在OLED屏幕上。
 
 
